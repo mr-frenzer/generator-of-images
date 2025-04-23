@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Prompt Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>AI Image Prompt Generator</h1>
+        <div class="input-group">
+            <label for="topic">Topic:</label>
+            <input type="text" id="topic" placeholder="e.g., A majestic lion">
+        </div>
+        <div class="input-group">
+            <label for="style">Style (optional):</label>
+            <input type="text" id="style" placeholder="e.g., Watercolor, Cyberpunk">
+        </div>
+        <div class="input-group">
+            <label for="color">Color (optional):</label>
+            <input type="text" id="color" placeholder="e.g., Pastel, Vibrant blues">
+        </div>
+        <div class="input-group">
+            <label for="additional">Additional Information (optional):</label>
+            <textarea id="additional" placeholder="e.g., In a lush forest, Under a starry sky"></textarea>
+        </div>
+        <button id="generateBtn">Generate Prompt</button>
+        <button id="generateRandomBtn">Generate Random Pretty & Creative Image</button>
+        <div class="output-group">
+            <h2>Generated Prompt:</h2>
+            <p id="promptOutput"></p>
+        </div>
+        <button id="bingButton">Generate Image on Bing</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
