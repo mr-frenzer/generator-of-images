@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateRandomBtn = document.getElementById('generateRandomBtn');
     const promptOutput = document.getElementById('promptOutput');
     const bingButton = document.getElementById('bingButton');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const chatgptButton = document.getElementById('chatgptButton');
+    const geminiButton = document.getElementById('geminiButton');
 
     const prettyQualities = ["beautiful", "stunning", "lovely", "charming", "delightful", "elegant", "graceful", "picturesque", "vibrant", "radiant", "gorgeous", "exquisite", "serene", "ethereal", "sublime", "captivating", "alluring", "enchanting", "divine", "heavenly"];
     const creativeElements = [
@@ -124,6 +127,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     bingButton.addEventListener('click', () => {
-        window.open('https://www.bing.com/images/create', '_blank');
+        const currentPrompt = promptOutput.textContent;
+        const bingImageCreatorUrl = `https://www.bing.com/images/create?q=${encodeURIComponent(currentPrompt)}`;
+        window.open(bingImageCreatorUrl, '_blank');
+    });
+
+    copyPromptBtn.addEventListener('click', () => {
+        const promptText = promptOutput.textContent;
+        if (promptText) {
+            navigator.clipboard.writeText(promptText)
+                .then(() => {
+                    alert('Prompt copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                    alert('Failed to copy prompt to clipboard.');
+                });
+        } else {
+            alert('No prompt to copy.');
+        }
+    });
+
+    chatgptButton.addEventListener('click', () => {
+        window.open('https://chat.openai.com/', '_blank');
+    });
+
+    geminiButton.addEventListener('click', () => {
+        window.open('https://gemini.google.com/', '_blank');
     });
 });
