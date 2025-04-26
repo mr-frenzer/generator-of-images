@@ -44,7 +44,7 @@ label {
 
 input[type="text"],
 textarea {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 12px;
     border: 1px solid #475569;
     /* Darker border for inputs */
@@ -54,6 +54,7 @@ textarea {
     background-color: #4a5568;
     /* Dark input background */
     color: #f8f8f2;
+    font-family: sans-serif; /* Explicitly set the font-family */
 }
 
 textarea {
@@ -109,8 +110,27 @@ button:hover {
     word-break: break-word;
 }
 
+#copyPromptBtn {
+    background: linear-gradient(to right, #10b981, #fbc02d); /* A nice amber/orange gradient */
+    color: white;
+    padding: 10px 24px; /* Reduced vertical padding */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-block; /* Allows it to take up only necessary width */
+    margin-top: 15px;
+    transition: opacity 0.3s ease;
+    width: auto; /* Adjust width to content */
+ 
+}
+
+#copyPromptBtn:hover {
+    opacity: 0.8;
+}
+
 #bingButton {
-    background: linear-gradient(to right, #007bff, #00a2e8);
+    background: linear-gradient(to right, #3858f8, #00a2e8);
     /* A blue gradient */
     color: white;
     padding: 14px 24px;
@@ -120,7 +140,7 @@ button:hover {
     font-size: 18px;
     display: block;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 1px;
     /* Add some space above the button */
     transition: opacity 0.3s ease;
 }
@@ -128,3 +148,41 @@ button:hover {
 #bingButton:hover {
     opacity: 0.8;
 }
+#chatgptButton {
+    background: linear-gradient(to right, #3858f8, #00a2e8);
+    /* A blue gradient */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    /* Add some space above the button */
+    transition: opacity 0.3s ease;
+}
+
+#chatgptButton:hover {
+    opacity: 0.8;
+}
+
+#geminiButton {
+    background: linear-gradient(to right, #3858f8, #00a2e8);
+    /* A blue gradient */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    /* Add some space above the button */
+    transition: opacity 0.3s ease;
+}
+
+#geminiButton:hover {
+    opacity: 0.8;
