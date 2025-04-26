@@ -1,158 +1,188 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const topicInput = document.getElementById('topic');
-    const styleInput = document.getElementById('style');
-    const colorInput = document.getElementById('color');
-    const additionalInput = document.getElementById('additional');
-    const generateBtn = document.getElementById('generateBtn');
-    const generateRandomBtn = document.getElementById('generateRandomBtn');
-    const promptOutput = document.getElementById('promptOutput');
-    const bingButton = document.getElementById('bingButton');
-    const copyPromptBtn = document.getElementById('copyPromptBtn');
-    const chatgptButton = document.getElementById('chatgptButton');
-    const geminiButton = document.getElementById('geminiButton');
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #1e293b;
+    /* A dark grayish-blue background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #f8f8f2;
+    /* Light text color */
+}
 
-    const prettyQualities = ["beautiful", "stunning", "lovely", "charming", "delightful", "elegant", "graceful", "picturesque", "vibrant", "radiant", "gorgeous", "exquisite", "serene", "ethereal", "sublime", "captivating", "alluring", "enchanting", "divine", "heavenly"];
-    const creativeElements = [
-        "imaginative", "unique", "original", "innovative", "dreamlike", "whimsical", "fantasy-like", "surreal", "abstract", "conceptual",
-        "visionary", "artistic", "expressive", "poetic", "metaphorical", "symbolic", "narrative", "mythical", "legendary", "fanciful",
-        "quirky", "unconventional", "experimental", "avant-garde", "modern", "contemporary", "futuristic", "retro-futuristic", "steampunk", "cyberpunk",
-        "biomorphic", "geometric", "organic", "fluid", "dynamic", "static", "minimalist", "maximalist", "ornate", "intricate",
-        "detailed", "textured", "layered", "polished", "raw", "gritty", "smooth", "glossy", "matte", "iridescent",
-        "luminescent", "glowing", "shimmering", "sparkling", "dazzling", "vivid", "intense", "muted", "soft", "bold",
-        "playful", "joyful", "melancholic", "nostalgic", "mysterious", "enigmatic", "ethereal", "celestial", "cosmic", "galactic",
-        "botanical", "zoological", "architectural", "scenic", "panoramic", "close-up", "wide-angle", "birds-eye view", "worms-eye view", "still life",
-        "portrait", "landscape", "seascape", "cityscape", "nightscape", "dawn scene", "dusk scene", "golden hour", "blue hour", "cinematic",
-        "photorealistic", "hyperrealistic", "stylized", "illustrated", "painted", "sculpted", "drawn", "etched", "engraved", "digitally rendered"
-    ];
-    const randomTopics = [
-        "a serene landscape with rolling hills", "a futuristic cityscape at night", "a magical creature in an enchanted forest", "an abstract art piece with flowing lines", "a cozy cottage nestled in a snowy landscape", "a vibrant marketplace bustling with activity",
-        "a majestic lion overlooking the savanna", "a playful group of otters in a river", "a lone astronaut on a distant planet", "a hidden portal to another dimension", "a steampunk airship soaring through the clouds", "a bioluminescent underwater world",
-        "a field of wildflowers in full bloom", "an ancient temple overgrown with vines", "a crystal cave filled with shimmering light", "a giant tree with a house built in its branches", "a flock of colorful birds taking flight", "a mystical library with floating books",
-        "a robot tending a garden", "a group of children playing in a sunlit meadow", "a peaceful tea ceremony in a traditional setting", "a lively jazz band performing on stage", "a detailed map of a forgotten land", "a collection of antique scientific instruments",
-        "a close-up of a dewdrop on a spiderweb", "a panoramic view from a mountain summit", "a swirling galaxy filled with stars", "a single lighthouse standing against a stormy sea", "a hot air balloon rising above a patchwork of fields", "a glasshouse filled with exotic plants",
-        "a stone bridge arching over a clear stream", "a waterfall cascading into a turquoise pool", "a desert oasis teeming with life", "an ice cave with intricate formations", "a volcanic eruption spewing lava and ash", "a field of sunflowers stretching to the horizon",
-        "a vineyard at sunset with rows of grapevines", "a fishing village with colorful boats docked in the harbor", "a medieval castle silhouetted against the moon", "a modern art museum with striking sculptures", "a botanical garden showcasing rare flowers", "a wildlife sanctuary protecting endangered animals",
-        "a coral reef teeming with marine life", "a sandy beach with palm trees swaying in the breeze", "a snowy forest with tracks of wild animals", "a foggy moor with ancient standing stones", "a lush rainforest with exotic birds and insects", "a bamboo forest with dappled sunlight",
-        "a wheat field swaying in the wind", "a lavender field in Provence", "a tulip field in the Netherlands", "a cherry blossom festival in Japan", "a rice paddy reflecting the sky", "a salt flat stretching to infinity", "a tundra landscape with grazing reindeer",
-        "a canyon carved by a winding river", "a mesa rising from the desert floor", "a glacier slowly carving through a valley", "a geyser erupting with hot water", "a cave system with underground rivers", "a sinkhole revealing a hidden world", "a cloud city floating in the sky",
-        "a subterranean civilization beneath the earth", "a time portal flickering with energy", "a dreamlike landscape with floating islands", "a world made of candy and sweets", "a city built on the back of a giant creature", "a society living in harmony with nature",
-        "a celebration with colorful lanterns and decorations", "a parade with elaborate floats and costumes", "a festival with traditional music and dance", "a gathering around a crackling bonfire", "a quiet moment of reflection in nature", "a sense of adventure in an unknown place",
-        "a feeling of nostalgia for a bygone era", "a burst of joy and laughter", "a moment of quiet contemplation", "a sense of mystery and intrigue", "a feeling of peace and tranquility", "a spark of inspiration", "a touch of magic in the ordinary", "a glimpse into the future",
-        "a whisper from the past", "an echo of a forgotten song", "a dance of light and shadow", "a symphony of colors", "a tapestry of textures", "a balance of chaos and order", "a study in contrasts", "a celebration of life", "a journey of discovery", "a moment of connection"
-    ];
-    const randomStyles = ["watercolor", "oil painting", "sketch", "pixel art", "photorealistic", "abstract"];
-    const randomColors = ["pastel shades", "vibrant colors", "monochromatic", "earth tones", "neon hues"];
-    const randomAdditionals = [
-        "under a soft glow", "with intricate details", "in a dreamlike setting", "with a sense of wonder", "bathed in sunlight", "casting long shadows", "with a shallow depth of field", "with a bokeh effect", "in sharp focus", "with a blurred background",
-        "during a gentle rain", "amidst a swirling mist", "under a clear blue sky", "at the break of dawn", "in the twilight hours", "illuminated by moonlight", "with stars twinkling above", "surrounded by lush foliage", "on a windswept plain", "nestled in the mountains",
-        "reflecting in a still lake", "with ripples on the water", "frozen in time", "in motion blur", "with a sense of speed", "exuding tranquility", "full of energy", "bursting with color", "in shades of gray", "with a vintage feel",
-        "incorporating geometric patterns", "featuring organic shapes", "with a touch of whimsy", "hinting at a hidden story", "evoking a sense of peace", "inspiring curiosity", "with a touch of magic", "in a state of flux", "showing a moment of stillness",
-        "with textures that invite touch", "using light and shadow dramatically", "with a focus on form", "celebrating color", "exploring negative space", "with a strong sense of perspective", "leading the eye through the scene", "creating a sense of depth", "with subtle nuances", "making a bold statement",
-        "in a miniature scale", "on a grand scale", "as seen through a keyhole", "from an unusual angle", "with a distorted perspective", "in a mirror reflection", "as a silhouette", "with a glowing aura", "emitting a soft light", "with a crackled texture",
-        "adorned with delicate ornaments", "featuring bold brushstrokes", "created with meticulous precision", "showing signs of age", "in pristine condition", "with a raw and unfinished look", "polished to perfection", "etched with fine lines", "painted with vibrant hues", "sculpted from a rare material",
-        "as if captured on film", "reminiscent of a classic painting", "with a modern twist", "inspired by ancient mythology", "drawing from futuristic concepts", "blending different styles", "pushing the boundaries of imagination", "a testament to creativity", "a visual symphony", "a feast for the eyes"
-    ];
+.container {
+    background-color: #334155;
+    /* Darker container background */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    /* Center the content within the container */
+}
 
-    generateBtn.addEventListener('click', () => {
-        const topic = topicInput.value.trim();
-        const style = styleInput.value.trim();
-        const color = colorInput.value.trim();
-        const additional = additionalInput.value.trim();
+h1 {
+    color: #f8f8f2;
+    margin-bottom: 30px;
+}
 
-        if (!topic) {
-            promptOutput.textContent = "Please enter a topic for your image.";
-            return;
-        }
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+    /* Align labels to the left */
+}
 
-        const randomPretty = prettyQualities[Math.floor(Math.random() * prettyQualities.length)];
-        const randomCreative = creativeElements[Math.floor(Math.random() * creativeElements.length)];
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+    /* Light gray label color */
+    font-weight: bold;
+}
 
-        let prompt = `${randomPretty} and ${randomCreative} image of ${topic}`;
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #475569;
+    /* Darker border for inputs */
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #4a5568;
+    /* Dark input background */
+    color: #f8f8f2;
+    font-family: sans-serif; /* Explicitly set the font-family */
+}
 
-        if (style) {
-            prompt += ` in the style of ${style}`;
-        }
+textarea {
+    min-height: 100px;
+}
 
-        if (color) {
-            prompt += ` with ${color} colors`;
-        }
+button {
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: opacity 0.3s ease;
+}
 
-        if (additional) {
-            prompt += `, ${additional}`;
-        }
+button:hover {
+    opacity: 0.8;
+}
 
-        promptOutput.textContent = prompt;
-    });
+#generateBtn {
+    background: linear-gradient(to right, #8b5cf6, #f093fb);
+    /* Purple to pink gradient */
+}
 
-    generateRandomBtn.addEventListener('click', () => {
-        console.log("Random button clicked!"); // Debugging log
+#generateRandomBtn {
+    background: linear-gradient(to right, #10b981, #38bdf8);
+    /* Green to blue gradient */
+}
 
-        const randomPrettyIndex = Math.floor(Math.random() * prettyQualities.length);
-        const randomCreativeIndex = Math.floor(Math.random() * creativeElements.length);
-        const randomTopicIndex = Math.floor(Math.random() * randomTopics.length);
-        const randomStyleIndex = Math.floor(Math.random() * randomStyles.length);
-        const randomColorIndex = Math.floor(Math.random() * randomColors.length);
-        const randomIndexAdditional = Math.floor(Math.random() * randomAdditionals.length);
+.output-group {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #334155;
+    /* Dark output background */
+    text-align: center;
+}
 
-        const randomPretty = prettyQualities[randomPrettyIndex];
-        const randomCreative = creativeElements[randomCreativeIndex];
-        const randomTopic = randomTopics[randomTopicIndex];
-        const randomStyle = randomStyles[randomStyleIndex];
-        const randomColor = randomColors[randomColorIndex];
-        const randomAdditional = randomAdditionals[randomIndexAdditional];
+.output-group h2 {
+    color: #f8f8f2;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
 
-        console.log("Random Pretty:", randomPretty);
-        console.log("Random Creative:", randomCreative);
-        console.log("Random Topic:", randomTopic);
-        console.log("Random Style:", randomStyle);
-        console.log("Random Color:", randomColor);
-        console.log("Random Additional:", randomAdditional);
+#promptOutput {
+    font-size: 18px;
+    color: #cbd5e1;
+    /* Light gray output text */
+    word-break: break-word;
+}
 
-        let prompt = `${randomPretty} and ${randomCreative} image of ${randomTopic}`;
+#copyPromptBtn {
+    background: linear-gradient(to right, #10b981, #fbc02d); /* A nice amber/orange gradient */
+    color: white;
+    padding: 10px 24px; /* Reduced vertical padding */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-block; /* Allows it to take up only necessary width */
+    margin-top: 15px;
+    transition: opacity 0.3s ease;
+    width: auto; /* Adjust width to content */
+ 
+}
 
-        if (Math.random() > 0.5) {
-            prompt += ` in the style of ${randomStyle}`;
-        }
+#copyPromptBtn:hover {
+    opacity: 0.8;
+}
 
-        if (Math.random() > 0.5) {
-            prompt += ` with ${randomColor} colors`;
-        }
+#bingButton {
+    background: linear-gradient(to right, #3858f8, #00a2e8);
+    /* A blue gradient */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    /* Add some space above the button */
+    transition: opacity 0.3s ease;
+}
 
-        if (Math.random() > 0.5) {
-            prompt += `, ${randomAdditional}`;
-        }
+#bingButton:hover {
+    opacity: 0.8;
+}
+#chatgptButton {
+    background: linear-gradient(to right, #3858f8, #00a2e8);
+    /* A blue gradient */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    /* Add some space above the button */
+    transition: opacity 0.3s ease;
+}
 
-        promptOutput.textContent = prompt;
-        console.log("Generated Random Prompt:", prompt); // Debugging log
-    });
+#chatgptButton:hover {
+    opacity: 0.8;
+}
 
-    bingButton.addEventListener('click', () => {
-        const currentPrompt = promptOutput.textContent;
-        const bingImageCreatorUrl = `https://www.bing.com/images/create?q=${encodeURIComponent(currentPrompt)}`;
-        window.open(bingImageCreatorUrl, '_blank');
-    });
+#geminiButton {
+    background: linear-gradient(to right, #3858f8, #00a2e8);
+    /* A blue gradient */
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    margin-top: 1px;
+    /* Add some space above the button */
+    transition: opacity 0.3s ease;
+}
 
-    copyPromptBtn.addEventListener('click', () => {
-        const promptText = promptOutput.textContent;
-        if (promptText) {
-            navigator.clipboard.writeText(promptText)
-                .then(() => {
-                    alert('Prompt copied to clipboard!');
-                })
-                .catch(err => {
-                    console.error('Could not copy text: ', err);
-                    alert('Failed to copy prompt to clipboard.');
-                });
-        } else {
-            alert('No prompt to copy.');
-        }
-    });
-
-    chatgptButton.addEventListener('click', () => {
-        window.open('https://chat.openai.com/', '_blank');
-    });
-
-    geminiButton.addEventListener('click', () => {
-        window.open('https://gemini.google.com/', '_blank');
-    });
-});
+#geminiButton:hover {
+    opacity: 0.8;
